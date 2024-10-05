@@ -1,0 +1,525 @@
+SQL> create table books(book_id int,
+  2  title varchar2(255) not null,
+  3    author varchar2(255) not null,
+  4   genre varchar2(100),
+  5  published_year int,
+  6  available_copies int);
+
+Table created.
+
+SQL> create table members(
+  2  member_id int,
+  3  first_name varchar2(100) not null,
+  4  last_name varchar2(100) not null,
+  5  email varchar2(255) unique not null,
+  6  phone varchar2(15),
+  7  join_date date default current_date
+  8  );
+
+Table created.
+
+SQL> create table transactions(
+  2  transaction_id int,
+  3  member_id int,
+  4  book_id int,
+  5  borrow_date date default current_date,
+  6  return_date date,
+  7  foregin key(member_id)references members(member_id),
+  8  foregin key(book_id)references books(book_id)
+  9  );
+foregin key(member_id)references members(member_id),
+           *
+ERROR at line 7:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table transactions(
+  2   transaction_id int,
+  3   member_id int,
+  4  book_id int,
+  5   borrow_date date default current_date,
+  6  return_date date,foregin key((member_id)references members(members(member_id)),
+  7  foregin key((book_id)references books(book_id))
+  8  );
+return_date date,foregin key((member_id)references members(members(member_id)),
+                            *
+ERROR at line 6:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table transactions(
+  2  transaction_id int,
+  3  member_id int,
+  4  book_id int,
+  5  borrow_date date default current_date,
+  6  return_date date
+  7  );
+
+Table created.
+
+SQL> insert into books values('to kill a mockingbird','harper lee','fiction',1960,3),
+  2
+SQL>  insert into books values('to kill a mockingbird','harper lee','fiction',1960,3);
+ insert into books values('to kill a mockingbird','harper lee','fiction',1960,3)
+             *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into books values('to kill a mockingbird','harper lee','fiction',1960,3);
+insert into books values('to kill a mockingbird','harper lee','fiction',1960,3)
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into books(title,author,genre,published_year,avalable_copies)val
+ues('to kill a mockingbird','harper lee','fiction',1960,3),
+  2  ('1984','george orwell','dystopian',1949,2),
+  3  ('the great gatsby','f.scott fitzgerald','fiction',1925,1);
+insert into books(title,author,genre,published_year,avalable_copies)values('to kill a mockingbird','harper lee','fiction',1960,3),
+
+                                                     *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL>  insert into books(title,author,genre,published_year,avalable_copies)val
+  2  ues('to kill a mockingbird','harper lee','fiction',1960,3),
+  3  ('the great gatsby','f.scott fitzgerald','fiction',1925,1);
+ insert into books(title,author,genre,published_year,avalable_copies)val
+                                                                     *
+ERROR at line 1:
+ORA-00926: missing VALUES keyword
+
+
+SQL> insert into books(title,author,genre,published_year,available_copies)
+  2  values('to kill a mockingbird',;haeper lee','fiction',1960,3),
+  3  ('1984','george orwell','dystopian',1949,2),
+  4  ('the great gatsby','f.scott fitzgerald','fiction',1925,1);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into books(title,author,genre,published_year,available_copies)
+  2   values('to kill a mockingbird','haeper lee','fiction',1960,3),
+  3  ('1984','george orwell','dystopian',1949,2),
+  4  ('the great gatsby','f.scott fitzgerald','fiction',1925,1);
+ values('to kill a mockingbird','haeper lee','fiction',1960,3),
+                                                              *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended
+
+
+SQL>  insert into books(title,author,genre,published_year,available_copies)
+  2  values('to kill a mockingbird',;haeper lee','fiction',1960,3);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into books(title,author,genre,published_year,available_copies)
+  2  values('to kill a mockingbird','haeper lee','fiction',1960,3);
+
+1 row created.
+
+SQL> insert into books(title,author,genre,published_year,available_copies)
+  2  values('1984','george orwell','dystopian',1949,2);
+
+1 row created.
+
+SQL>  insert into books(title,author,genre,published_year,available_copies)
+  2  values('the great gatsby','f.scott fitzgerald','fiction',1925,1);
+
+1 row created.
+
+SQL> insert into members(first_name,last_name,email,phone)values
+  2  ('john','doe','john.doe@example.com','1234567890'),
+  3  ('jane','smith;,'jane.smith@example.com','0987654321');
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into members(first_name,last_name,email,phone)values
+  2  ('john','doe','john.doe@example.com','1234567890'),
+  3   ('jane','smith','jane.smith@example.com','0987654321');
+('john','doe','john.doe@example.com','1234567890'),
+                                                  *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SQL>
+SQL>  insert into members(first_name,last_name,email,phone)values
+  2  ('john','doe','john.doe@example.com','1234567890');
+
+1 row created.
+
+SQL> insert into members(first_name,last_name,email,phone)values
+  2  ('jane','smith','jane.smith@example.com','0987654321');
+
+1 row created.
+
+SQL> insert into transactions(member_id,book_id)values
+  2  (1,1);
+
+1 row created.
+
+SQL> insert into transactions(member_id,book_id)values
+  2  (2,2);
+
+1 row created.
+
+SQL> select * from books;
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+
+to kill a mockingbird
+haeper lee
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+fiction
+          1960                3
+
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+
+1984
+george orwell
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+dystopian
+          1949                2
+
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+
+the great gatsby
+f.scott fitzgerald
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+fiction
+          1925                1
+
+
+SQL> select * from members;
+
+ MEMBER_ID
+----------
+FIRST_NAME
+--------------------------------------------------------------------------------
+LAST_NAME
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+PHONE           JOIN_DATE
+--------------- ---------
+
+john
+doe
+
+ MEMBER_ID
+----------
+FIRST_NAME
+--------------------------------------------------------------------------------
+LAST_NAME
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+PHONE           JOIN_DATE
+--------------- ---------
+john.doe@example.com
+1234567890      05-OCT-24
+
+
+ MEMBER_ID
+----------
+FIRST_NAME
+--------------------------------------------------------------------------------
+LAST_NAME
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+PHONE           JOIN_DATE
+--------------- ---------
+
+jane
+smith
+
+ MEMBER_ID
+----------
+FIRST_NAME
+--------------------------------------------------------------------------------
+LAST_NAME
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+PHONE           JOIN_DATE
+--------------- ---------
+jane.smith@example.com
+0987654321      05-OCT-24
+
+
+SQL> select * from transactions;
+
+TRANSACTION_ID  MEMBER_ID    BOOK_ID BORROW_DA RETURN_DA
+-------------- ---------- ---------- --------- ---------
+                        1          1 05-OCT-24
+                        2          2 05-OCT-24
+
+SQL> update books set available_copies=available_copies-1 where book_id=1;
+
+0 rows updated.
+
+SQL> update transactions set return_date=current_date where transaction_id=1
+;
+
+0 rows updated.
+
+SQL> update members set phone='1122334455' where member_id=1;
+
+0 rows updated.
+
+SQL> delete from books where book_id=3;
+
+0 rows deleted.
+
+SQL> delete from members where book_id=3;
+delete from members where book_id=3
+                          *
+ERROR at line 1:
+ORA-00904: "BOOK_ID": invalid identifier
+
+
+SQL> delete from members where member_id=2;
+
+0 rows deleted.
+
+SQL> delete from transactions where trnsaction_id=2;
+delete from transactions where trnsaction_id=2
+                               *
+ERROR at line 1:
+ORA-00904: "TRNSACTION_ID": invalid identifier
+
+
+SQL> delete from transactions where transaction_id=2;
+
+0 rows deleted.
+
+SQL> select * from books;
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+
+to kill a mockingbird
+haeper lee
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+fiction
+          1960                3
+
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+
+1984
+george orwell
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+dystopian
+          1949                2
+
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+
+the great gatsby
+f.scott fitzgerald
+
+   BOOK_ID
+----------
+TITLE
+--------------------------------------------------------------------------------
+AUTHOR
+--------------------------------------------------------------------------------
+GENRE
+--------------------------------------------------------------------------------
+PUBLISHED_YEAR AVAILABLE_COPIES
+-------------- ----------------
+fiction
+          1925                1
+
+
+SQL> select * from members;
+
+ MEMBER_ID
+----------
+FIRST_NAME
+--------------------------------------------------------------------------------
+LAST_NAME
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+PHONE           JOIN_DATE
+--------------- ---------
+
+john
+doe
+
+ MEMBER_ID
+----------
+FIRST_NAME
+--------------------------------------------------------------------------------
+LAST_NAME
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+PHONE           JOIN_DATE
+--------------- ---------
+john.doe@example.com
+1234567890      05-OCT-24
+
+
+ MEMBER_ID
+----------
+FIRST_NAME
+--------------------------------------------------------------------------------
+LAST_NAME
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+PHONE           JOIN_DATE
+--------------- ---------
+
+jane
+smith
+
+ MEMBER_ID
+----------
+FIRST_NAME
+--------------------------------------------------------------------------------
+LAST_NAME
+--------------------------------------------------------------------------------
+EMAIL
+--------------------------------------------------------------------------------
+PHONE           JOIN_DATE
+--------------- ---------
+jane.smith@example.com
+0987654321      05-OCT-24
+
+
+SQL> select * from transactions;
+
+TRANSACTION_ID  MEMBER_ID    BOOK_ID BORROW_DA RETURN_DA
+-------------- ---------- ---------- --------- ---------
+                        1          1 05-OCT-24
+                        2          2 05-OCT-24
+
+SQL> select b.title,t.borrow_date,t,return_date from transactions t join boo
+ks b on t.book_id=b.book_id
+  2  where t.member_id=1;
+select b.title,t.borrow_date,t,return_date from transactions t join books b on t.book_id=b.book_id
+                             *
+ERROR at line 1:
+ORA-00904: "T": invalid identifier
+
+
+SQL> select b.title,t.borrow_date,t.return_date from transactions t join boo
+ks b on t.book_id=b.book_id where t.member_id=1;
+
+no rows selected
